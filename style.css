@@ -34,6 +34,16 @@ g[name="Europe"] path {
 	transition: 0.6s;
 	cursor: pointer;
   }
+
+  .available_soon path{
+	fill: rgb(136, 167, 125);
+  }
+
+.available_soon:hover path {
+	fill: rgb(117, 117, 117);
+	transition: 0.6s;
+	cursor: pointer;
+  }
   
 /* Set the stroke color of all the path elements within the Europe elements to darkgreen when their parent svg element has the hover class */
 svg.hover g[name="Europe"] path {
