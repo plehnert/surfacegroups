@@ -1434,60 +1434,171 @@ worldSvg.parentNode.replaceChild(europeSvg, worldSvg);
 // Displaying Download Available or Download Unavailable Depending on the Download Link
 var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {
- "Germany": "https://data.geo.admin.ch/ch.swisstopo.swissboundaries3d/swissboundaries3d_2023-01/swissboundaries3d_2023-01_2056_5728.gdb.zip",
- "Switzerland": "https://data.geo.admin.ch/ch.swisstopo.swissboundaries3d/swissboundaries3d_2023-01/swissboundaries3d_2023-01_2056_5728.gdb.zip",
- "Turkey": "https://data.geo.admin.ch/ch.swisstopo.swissboundaries3d/swissboundaries3d_2023-01/swissboundaries3d_2023-01_2056_5728.gdb.zip"
-
+ 
 };
 
+const username = 'thvist';
+const repository = 'thvist.github.io';
+const filePath = 'DOI_List_SWISSUbase.csv';
+
+fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
+  .then(response => response.json())
+  .then(data => {
+    const content = data.content;
+    const decodedContent = atob(content);
+
+    // Parse the CSV data
+    const csvData = Papa.parse(decodedContent, { header: true }).data;
+
+    // Log the csvData variable to the console
+    console.log(csvData);
+
+    // Extend the downloadLinks object with data from the CSV file
+    csvData.forEach(row => {
+      const countryName = row['ï»¿Country/Region'];
+      const downloadLink = row['DOI-Link'];
+      if (!downloadLinks.hasOwnProperty(countryName)) {
+        downloadLinks[countryName] = downloadLink;
+      }
+    }); 
 var currentCountry = null;
 
 // Select all the path elements within the Europe SVG element
 var countries = europeSvg.querySelectorAll('path');
 
-// Loop through the path elements
 countries.forEach(function(country) {
- // Get the name of the country from its name attribute
- var countryName = country.getAttribute('name');
- var downloadLink = downloadLinks[countryName];
- if (downloadLink) {
- country.classList.add("available_eu");
- }
 
+// Status
+// Create an object to store the mapping between country names and status values
+var countryStatuses = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+
+// Get the country name and status value from the current row
+var countryName = row["ï»¿Country/Region"];
+var status = row["Status"];
+
+// Add the country name and status value to the countryStatuses object
+countryStatuses[countryName] = status;
+});
+
+var countryName = country.getAttribute("name");
+var downloadLink = downloadLinks[countryName];
+var status = countryStatuses[countryName];
+if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
+  country.classList.add("available_eu");
+}
+if (status === "Eingereicht") {
+  country.classList.add("available_eu_soon");
+}
+
+country.addEventListener("mouseover", function(event) {
+    // Check if the cursor has moved over a new country
+    if (countryName !== currentCountry) {
+      // Update the currentCountry variable
+      currentCountry = countryName;
+      // Get the position of the cursor
+      var x = event.clientX;
+      var y = event.clientY;
+      // Set the position of the countryNameElement
+      countryNameElement.style.left = x + 20 + 'px';
+      countryNameElement.style.top = y + 'px';
+    }
+    // Show the countryNameElement
+    countryNameElement.style.display = 'block';
+    if (downloadLink) {
+  if (countryYears.hasOwnProperty(countryName)) {
+    // If the country is present in all objects, display its name, availability, years value, code version, and code specification
+    if (country.classList.contains("available_soon")) {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available Soon<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
+    } else {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
+    }
+  } else {
+    // If the country is not present in any of the objects, only display its name and availability
+    if (country.classList.contains("available_soon")) {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available Soon`;
+    } else {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available`;
+    }
+  }
+} else {
+  if (countryYears.hasOwnProperty(countryName)) {
+    // If the country is present in all objects except downloadLinks, display its name, years value, code version, and code specification
+    countryNameElement.innerHTML = `${countryName}<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
+  } else {
+    // If the country is not present in any of the objects, only display its name
+    countryNameElement.innerHTML = countryName + '<br>Data Unavailable';
+  }
+}
+
+});
  // Downloading the Data
-countries.forEach(function(country) {
+ countries.forEach(function(country) {
  country.addEventListener("click", function() {
  var countryName = country.getAttribute("name");
  var downloadLink = downloadLinks[countryName];
  if (downloadLink) {
  window.location.href = downloadLink;
  }
- });
+ });});
+
+// Code Years
+// Create an object to store the mapping between country names and years
+var countryYears = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and years value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var years = row["Years"];
+
+  // Add the country name and years value to the countryYears object
+  countryYears[countryName] = years;
 });
 
 
- // Add a 'mouseover' event listener to the country element
- country.addEventListener('mouseover', function(event) {
- // Get the position of the cursor
- var x = event.clientX;
- var y = event.clientY;
- // Set the position of the countryNameElement
- countryNameElement.style.left = x + 20 + 'px';
- countryNameElement.style.top = y + 'px';
- // Show the countryNameElement
- countryNameElement.style.display = 'block';
- // Set the text content of the countryNameElement
- countryNameElement.textContent = countryName;
- });
+// Code Versions
+// Create an object to store the mapping between country names and code versions
+var countryCodeVersions = {};
 
- // Add a 'mouseout' event listener to the country element
- country.addEventListener('mouseout', function(event) {
- // Hide the countryNameElement
- countryNameElement.style.display = 'none';
- });
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and code version value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var codeVersion = row["Code Version"];
+
+  // Add the country name and code version value to the countryCodeVersions object
+  countryCodeVersions[countryName] = codeVersion;
 });
- });
+
+
+// Code Specifications
+// Create an object to store the mapping between country names and code specifications
+var countryCodeSpecifications = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and code specification value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var codeSpecification = row["Code Specification"];
+
+  // Add the country name and code specification value to the countryCodeSpecifications object
+  countryCodeSpecifications[countryName] = codeSpecification;
 });
+
+
+// Set the text content of the countryNameElement
+if (countryYears.hasOwnProperty(countryName)) {
+  // If the country is present in the countryYears object, display its name and years value
+  countryNameElement.textContent = `${countryName}: ${countryYears[countryName]}`;
+} else {
+  // If the country is not present in the countryYears object, only display its name
+  countryNameElement.textContent = countryName;
+}
+});
+});});
 
 // Add a mouseover event listener to the Europe elements
 europeElements.forEach(function(europe) {
@@ -1579,6 +1690,7 @@ document.addEventListener('mousemove', function(event) {
 
 // this }): below is very important for the code loading the csv file, don't delete
 });
+}); 
 
     </script>
     <script>
