@@ -1,0 +1,155 @@
+/* ----- style.css ----- */
+* {
+	margin: 0; 
+	padding: 0; 
+}
+body {
+	background-color: #01171b;
+}
+svg path {
+	fill: #6f6f6f;
+	stroke: #eee;
+	stroke-width: .25;
+}
+
+
+
+.available path{
+	fill: rgb(69, 129, 69);
+  }
+
+/* Set the stroke color of the path elements within the Europe elements to the same color as their fill color */
+g[name="Europe"] path {
+	stroke: rgb(69, 129, 69);
+  }
+  
+/* Increase the stroke-width of the path elements within the Europe elements */
+g[name="Europe"] path {
+	stroke-width: 2;
+  }
+	
+
+  .available:hover path {
+	fill: darkgreen;
+	transition: 0.6s;
+	cursor: pointer;
+  }
+  
+/* Set the stroke color of all the path elements within the Europe elements to darkgreen when their parent svg element has the hover class */
+svg.hover g[name="Europe"] path {
+	stroke: darkgreen;
+  }
+  
+/* Modify your CSS to target the path element within the g element with the class .available */
+.available path {
+    fill: rgb(69, 129, 69);
+}
+
+.highlight path {
+  fill: darkgreen;
+  transition: 0.6s;
+  cursor: pointer;
+}
+
+
+#tooltip {
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+/* The background colour of the whole website*/
+body {
+	background-color: rgb(246, 246, 241);
+  }
+
+/* The colour of the title*/
+h1 {
+	color: rgb(0, 0, 0);
+	text-align: center;
+	margin: 20px 0;
+  }
+
+  /* The width, colour of the boarder etc. */
+  #map-container {
+	position: relative;
+	width: 95%;
+	border: 0px solid rgb(39, 28, 19);
+	border-radius: 10px;
+	
+  }
+
+
+/* How the country name should be displayed
+#country-name {
+	position: absolute;
+	top: calc(100% + 5px);
+	left: 50%;
+	transform: translateX(-50%);
+  } */
+
+  #country-name {
+	position: absolute;
+	display: none;
+	background-color: white;
+	border: 1px solid black;
+	padding: 5px;
+  }
+
+  .has-download-link {
+	fill: #86d886; /* Change this to the color you want */
+  }
+  
+  .new-map {
+	width: 70%;
+  }
+  
+
+  #map-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
+  .hidden {
+	display: none;
+  }
+
+  
+  .state path {
+	pointer-events: none;
+  }
+
+  .europe-map {
+	width: 1300px;
+	height: 750px;
+  }
+  
+  .us-map {
+	width: 1000px;
+	height: 650px;
+  }
+  
+
+/* Modify your CSS to target the path element with the class .available */
+.available_eu {
+	fill: rgb(69, 129, 69);
+   }
+   
+   .available_eu:hover {
+	fill: darkgreen;
+	transition: 0.6s;
+	cursor: pointer;
+   }
+
+/* Modify your CSS to target the path element with the class .available */
+.available_us {
+	fill: rgb(69, 129, 69);
+   }
+   
+   .available_us:hover {
+	fill: darkgreen;
+	transition: 0.6s;
+	cursor: pointer;
+   }
+   
