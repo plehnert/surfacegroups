@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Karte Patrick</title>
+		<title>Karte & Daten</title>
 		<!-- Linking my style.css file for display stuff -->
 		<link rel="stylesheet" href="style.css" type="text/css" />
   </head>
@@ -1533,6 +1533,28 @@ observer.observe(parentElement, { childList: true });
 
 
     </script>
+
+
+<button id="loadData">Load Data</button>
+<div id="data"></div>
+
+<script>
+document.getElementById("loadData").addEventListener("click", function() {
+    fetch('<https://raw.githubusercontent.com/Thvist/thvist.github.io/main/DOI_List_SWISSUbase.csv>')
+        .then(response => {
+            if (response.ok) {
+                document.getElementById("data").innerHTML = "CSV file loaded successfully!";
+            } else {
+                document.getElementById("data").innerHTML = "Error loading CSV file: " + response.status;
+            }
+        })
+        .catch(error => {
+            document.getElementById("data").innerHTML = "Error loading CSV file: " + error;
+        });
+});
+</script>
+
+
 
 	</body>
 <html>
