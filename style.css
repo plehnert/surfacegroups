@@ -13,6 +13,10 @@ svg path {
 }
 
 
+h1 {
+	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+}
+
 
 .available path{
 	fill: rgb(69, 129, 69);
@@ -66,7 +70,27 @@ svg.hover g[name="Europe"] path {
   background-color: white;
   border: 1px solid black;
   padding: 5px;
+  font-family: 'Times New Roman', Times, serif;; /* Set the font family */
 }
+
+.back-button {
+	/* Add your styles here */
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	/* ... */
+	background-color: white;
+  	border: 1px solid black;
+  	padding: 5px;
+	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+	font-size: 17px; /* Increase the font size */
+}
+
+.back-button:hover {
+	background-color: lightgrey;
+}
+
+  
 
 /* The background colour of the whole website*/
 body {
@@ -90,13 +114,7 @@ h1 {
   }
 
 
-/* How the country name should be displayed
-#country-name {
-	position: absolute;
-	top: calc(100% + 5px);
-	left: 50%;
-	transform: translateX(-50%);
-  } */
+/* How the country name should be displayed */
 
   #country-name {
 	position: absolute;
@@ -104,6 +122,8 @@ h1 {
 	background-color: white;
 	border: 1px solid black;
 	padding: 5px;
+	font-family: 'Times New Roman', Times, serif; /* Set the font family */
+	
   }
 
   .has-download-link {
