@@ -965,16 +965,16 @@
 
     <script>
 
-      // Displaying the name of the country
-      var countryNameElement = document.querySelector("#country-name");
-      var countries = document.querySelectorAll("g");
-      var currentCountry = null;
+// Displaying the name of the country
+var countryNameElement = document.querySelector("#country-name");
+var countries = document.querySelectorAll("g");
+var currentCountry = null;
 
 // Displaying Download Available or Download Unavailabe Depending on the Download Link
 var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {
-  "Europe": "https://data.geo.admin.ch/ch.swisstopo.swissboundaries3d/swissboundaries3d_2023-01/swissboundaries3d_2023-01_2056_5728.gdb.zip",
-  "United States": "https://data.geo.admin.ch/ch.swisstopo.swissboundaries3d/swissboundaries3d_2023-01/swissboundaries3d_2023-01_2056_5728.gdb.zip",
+  "Europe": "https://www.google.ch/",
+  "United States": "https://www.google.ch/",
       };
 
 const username = 'plehnert';
@@ -1258,9 +1258,6 @@ worldSvg.parentNode.replaceChild(usSvg, worldSvg);
 var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {};
 
-const username = 'plehnert';
-const repository = 'surfacegroups';
-const filePath = 'DOI_List_SWISSUbase.csv';
 
 fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
   .then(response => response.json())
@@ -1562,10 +1559,6 @@ var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {
  
 };
-
-const username = 'plehnert';
-const repository = 'surfacegroups';
-const filePath = 'DOI_List_SWISSUbase.csv';
 
 fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
   .then(response => response.json())
