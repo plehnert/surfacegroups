@@ -42,16 +42,19 @@ body {
   }
 
 
-/* How the country name box including additional information should be displayed */
-#country-name {
+  #country-name {
 	position: absolute;
-	display: none;
+	display: block; /* Change display property to block */
 	background-color: white;
 	border: 1px solid rgb(0, 0, 0);
 	padding: 5px;
-	font-family: 'Times New Roman', Times, serif; /* Set the font family */
-	z-index: +10; /* Set the z-index to a low value */
-  }
+	font-family: 'Times New Roman', Times, serif;
+	z-index: +10;
+	max-width: 100%; /* Add max-width property */
+	max-height: 100%; /* Add max-height property */
+	overflow: auto; /* Add overflow property */
+}
+
 
 
 
