@@ -50,7 +50,7 @@ body {
 	border: 1px solid rgb(0, 0, 0);
 	padding: 5px;
 	font-family: 'Times New Roman', Times, serif; /* Set the font family */
-	
+	z-index: +10; /* Set the z-index to a low value */
   }
 
 
@@ -96,13 +96,6 @@ svg.hover g[name="Europe"] path {
   cursor: pointer;
 }
 
-
-#tooltip {
-  background-color: white;
-  border: 1px solid black;
-  padding: 5px;
-  font-family: 'Times New Roman', Times, serif;; /* Set the font family */
-}
 
 .back-button {
 	/* Add your styles here */
@@ -212,3 +205,46 @@ body {
 overflow-y: hidden;
   }
    
+
+
+/* CSS */
+.box {
+	position: fixed;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	background-color: white;
+	border: 1px solid black;
+	padding: 10px;
+	transition: opacity 0.5s;
+  }
+  
+  .color-box-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+  }
+  
+  .color-box-container:last-child {
+	margin-bottom: 0;
+  }
+  
+  .color-box {
+	width: 20px;
+	height: 20px;
+	border: 1px solid black;
+	margin-right: 10px;
+  }
+
+  .dark-grey {
+	background-color: #6f6f6f;
+  }
+  
+  .green {
+	background-color: rgb(136, 167, 125);
+  }
+  
+  .dark-green {
+  	background-color: darkgreen;
+  }
+  
