@@ -1183,7 +1183,6 @@ countries.forEach(function(country) {
   });
 });
 
-
 // Create a variable to store a reference to the World SVG element
 var worldSvg;
 
@@ -1899,6 +1898,57 @@ observer.observe(parentElement, { childList: true });
 
 
     </script>
+
+<!-- HTML -->
+<div class="box" onmouseover="handleMouseOver()">
+  <div class="color-box-container">
+    <div class="color-box dark-grey"></div>
+    <p>Data Unavailable</p>
+  </div>
+  <div class="color-box-container">
+    <div class="color-box green"></div>
+    <p>Data Available Soon</p>
+  </div>
+  <div class="color-box-container">
+    <div class="color-box dark-green"></div>
+    <p>Data Available</p>
+  </div>
+  <p class="additional-text">Additional text goes here</p>
+</div>
+
+<script>
+  var box = document.querySelector(".box");
+  var boxRect = box.getBoundingClientRect();
+  var isMouseOver = false;
+
+  function handleMouseOver() {
+    isMouseOver = true;
+    setTimeout(function() {
+      if (isMouseOver) {
+        box.style.opacity = "0";
+        box.style.pointerEvents = "none";
+      }
+    }, 1);
+  }
+
+  function handleMouseOut() {
+    isMouseOver = false;
+    box.style.opacity = "1";
+    box.style.pointerEvents = "auto";
+  }
+
+  document.addEventListener("mousemove", function(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    if (x < boxRect.left || x > boxRect.right || y < boxRect.top || y > boxRect.bottom) {
+      handleMouseOut();
+    }
+  });
+</script>
+
+
+
+
 
 
 
