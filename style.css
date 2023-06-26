@@ -41,6 +41,32 @@ body {
 	cursor: pointer;
   }
 
+
+/* How the country name box including additional information should be displayed */
+#country-name {
+	position: absolute;
+	display: none;
+	background-color: white;
+	border: 1px solid rgb(0, 0, 0);
+	padding: 5px;
+	font-family: 'Times New Roman', Times, serif; /* Set the font family */
+	
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Set the stroke color of the path elements within the Europe elements to the same color as their fill color */
 g[name="Europe"] path {
 	stroke: rgb(69, 129, 69);
@@ -63,6 +89,7 @@ svg.hover g[name="Europe"] path {
     fill: rgb(69, 129, 69);
 }
 
+/* Managing the highlight colour of countries hovered over on the world */
 .highlight path {
   fill: darkgreen;
   transition: 0.6s;
@@ -79,16 +106,18 @@ svg.hover g[name="Europe"] path {
 
 .back-button {
 	/* Add your styles here */
-	position: absolute;
+	position: fixed;
 	bottom: 10px;
-	left: 10px;
+	left: 50%;
+	transform: translateX(-50%);
 	/* ... */
 	background-color: white;
-  	border: 1px solid black;
-  	padding: 5px;
-	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
-	font-size: 17px; /* Increase the font size */
-}
+	border: 1px solid black;
+	padding: 5px;
+	font-family: 'Times New Roman', Times, serif; /* Set the font family */
+	font-size: 17px; /* Change the font size */
+  }
+  
 
 .back-button:hover {
 	background-color: lightgrey;
@@ -108,19 +137,6 @@ h1 {
 	width: 95%;
 	border: 0px solid rgb(39, 28, 19);
 	border-radius: 10px;
-	
-  }
-
-
-/* How the country name should be displayed */
-
-  #country-name {
-	position: absolute;
-	display: none;
-	background-color: white;
-	border: 1px solid black;
-	padding: 5px;
-	font-family: 'Times New Roman', Times, serif; /* Set the font family */
 	
   }
 
