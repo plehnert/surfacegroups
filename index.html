@@ -1899,21 +1899,19 @@ observer.observe(parentElement, { childList: true });
 
     </script>
 
-<!-- HTML -->
 <div class="box" onmouseover="handleMouseOver()">
   <div class="color-box-container">
-    <div class="color-box dark-grey"></div>
-    <p>Data Unavailable</p>
+    <div class="color-box dark-green"></div>
+    <p>Data Available: Data download available from SWISSUbase (click on the country/region)</p>
   </div>
   <div class="color-box-container">
     <div class="color-box green"></div>
-    <p>Data Available Soon</p>
+    <p>Data Available Soon: Data produced but not yet available from SWISSUbase. Contact patrick.lehnert(at)business.uzh.ch.</p>
   </div>
   <div class="color-box-container">
-    <div class="color-box dark-green"></div>
-    <p>Data Available</p>
+    <div class="color-box dark-grey"></div>
+    <p>Data Currently Unavailable: Data not yet produced</p>
   </div>
-  <p class="additional-text">Additional text goes here</p>
 </div>
 
 <script>
@@ -1945,6 +1943,7 @@ observer.observe(parentElement, { childList: true });
     }
   });
 </script>
+
 
 
 
