@@ -993,19 +993,30 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Log the csvData variable to the console
     console.log(csvData);
 
+    // Status
+    // Create an object to store the mapping between country names and status values
+    var countryStatuses = {};
+
+    // Loop through the csvData array
+    csvData.forEach(function(row) {
+      // Get the country name and status value from the current row
+      var countryName = row["ï»¿Country/Region"];
+      var status = row["Status"];
+      countryStatuses[countryName] = status;
+    });
+
     // Extend the downloadLinks object with data from the CSV file
     csvData.forEach(row => {
       const countryName = row['ï»¿Country/Region'];
       const downloadLink = row['DOI-Link'];
-      if (!downloadLinks.hasOwnProperty(countryName)) {
+      if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
         downloadLinks[countryName] = downloadLink;
       }
     });  
 
-var currentCountry = null;
+    var currentCountry = null;
 
 countries.forEach(function(country) {
-
   // Status
   // Create an object to store the mapping between country names and status values
   var countryStatuses = {};
@@ -1027,7 +1038,7 @@ countries.forEach(function(country) {
   if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
     country.classList.add("available");
   }
-  if (status === "Eingereicht") {
+  if (status === "Produziert") {
     country.classList.add("available_soon");
   }
 
@@ -1062,7 +1073,10 @@ countries.forEach(function(country) {
     }
   }
 } else {
-  if (countryYears.hasOwnProperty(countryName)) {
+  if (countryStatuses[countryName] === "Ausstehend") {
+    // If the status of the country is "Ausstehend", only display its name and "Data Unavailable"
+    countryNameElement.innerHTML = `${countryName}<br>Data Unavailable`;
+  } else if (countryYears.hasOwnProperty(countryName)) {
     // If the country is present in all objects except downloadLinks, display its name, years value, code version, and code specification
     countryNameElement.innerHTML = `${countryName}<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
   } else {
@@ -1070,6 +1084,7 @@ countries.forEach(function(country) {
     countryNameElement.innerHTML = countryName + '<br>Data Unavailable';
   }
 }
+
 
 });
 
@@ -1203,7 +1218,7 @@ usaElements.forEach(function(usa) {
     <path d="m 873.5,178.9 .4,-1.1 -3.2,-12.3 -.1,-.3 -14.9,3.4 v .7 l -.9,.3 -.5,-.7 -10.5,2.4 2.8,16.3 1.8,1.5 -3.5,3.4 1.7,2.2 5.4,-4.5 1.7,-1.3 h .8 l 2.4,-3.1 1.4,.1 2.9,-1.1 h 2.1 l 5.3,-2.7 2.8,-.9 1,-1 1.5,.5 z" name="Connecticut"></path>  
     <path d="m 822.2,226.6 -1.6,.3 -1.5,1.1 -1.2,2.1 7.6,27.1 10.9,-2.3 -2.2,-7.6 -1.1,.5 -3.3,-2.6 -.5,-1.7 -1.8,-1 -.2,-3.7 -2.1,-2.2 -1.1,-.8 -1.2,-1.1 -.4,-3.2 .3,-2.1 1,-2.2 z" name="Delaware"></path>  
     <path d="m 751.7,445.1 -4,-.7 -1.7,-.9 -2.2,1.4 v 2.5 l 1.4,2.1 -.5,4.3 -2.1,.6 -1,-1.1 -.6,-3.2 -50.1,3.3 -3.3,-6 -48.8,5.1 -.5,2.9 2.5,2.8 1.7,.7 .9,1.2 -.4,7.3 -1.1,.6 .5,.4 1,-.3 .7,-.8 10.5,-2.7 9.2,-.5 8.1,1.9 8.5,5 2.4,.8 2.2,2 -.1,2.7 h 2.4 l 1.9,-1 2.5,.1 2,-.8 2.9,-2 3.1,-2.9 1.1,-.4 .6,.5 h 1.4 l .5,-.8 -.5,-1.2 -.6,-.6 .2,-.8 2,-1.1 5,-.4 .8,1 1,.1 2.3,1 3,1.8 1.2,1.7 1.1,1.2 2.8,1.4 v 2.4 l 2.8,1.9 1,.1 1.6,1.4 .7,1.6 1,.2 .8,2.1 .7,.6 1,-1.1 2.9,.1 .5,1.4 1.1,.9 v 1.3 l 2.9,2.2 .2,9.6 -1.8,5.8 1,1.2 -.2,3.4 -.8,1.4 .7,1.2 2.3,2.3 .3,1.5 .8,1 -.4,-1.9 1.3,-.6 .8,-3.6 -3,-1.2 .1,-.6 2.6,-.4 .9,2.6 1.1,.6 .1,-2 1.1,.3 .6,.8 -.1,.7 -2.9,4.2 -.2,1.1 -1.7,1.9 v 1.1 l 3.7,3.8 5.3,7.9 1.8,2.1 v 1.8 l 2.8,4.6 2.3,.6 .7,-1.2 -2.1,.3 -3,-4.5 .2,-1.4 1.5,-.8 v -1.5 l -.6,-1.3 .9,-.9 .4,.9 .7,.5 v 4 l -1.2,-.6 -.8,.9 1.4,1.6 1,2.6 1.2,-.6 2.3,1.2 2.1,2.2 1.6,5.1 3.1,4.8 .8,-1.3 2.8,-.5 3.2,1.3 .3,1.7 3.3,3.8 .1,1.1 2.2,2.7 -.7,.5 v 2.7 l 2.7,1.4 h 1.5 l 2.7,-1.8 1.5,.3 1.1,.4 2.3,-1.7 .2,-.7 1.2,.3 2.4,-1.7 1.3,-2.3 -.7,-3.2 -.2,-1.3 1.1,-4 .6,-.2 .6,1.6 .8,-1.8 -.8,-7.2 -.4,-10.5 -1,-6.8 -.7,-1.7 -6.6,-11.1 -5.2,-9.1 -2.2,-3.3 -1.3,-3.6 -.2,-3.4 .9,-.3 v -.9 l -1.1,-2.2 -4,-4 -7.6,-9.7 -5.7,-10.4 -4.3,-10.7 -.6,-3.7 -1.2,-1 -.5,-3.8 z m 9.2,134.5 1.7,-.1 -.7,-1 z m 7.3,-1.1 v -.7 l 1.6,-.2 3.7,-3.3 1.5,-.6 2.4,-.9 .3,1.3 1.7,.8 -2.6,1.2 h -2.4 l -3.9,2.5 z m 17.2,-7.6 -3,1.4 -1,1.3 1.1,.1 z m 3.8,-2.9 -1.1,.3 -1.4,2 1.1,-.2 1.5,-1.6 z m 8.3,-15.7 -1.7,5.6 -.8,1 -1,2.6 -1.2,1.6 -.7,1.7 -1.9,2.2 v .9 l 2.7,-2.8 2.4,-3.5 .6,-2 2.1,-4.9 z" name="Florida"></path>  
-    <path d="m 761.8,414.1 v 1.4 l -4.2,6.2 -1.2,.2 1.5,.5 v 2 l -.9,1.1 -.6,6 -2.3,6.2 .5,2 .7,5.1 -3.6,.3 -4,-.7 -1.7,-.9 -2.2,1.4 v 2.5 l 1.4,2.1 -.5,4.3 -2.1,.6 -1,-1.1 -.6,-3.2 -50.1,3.3 -3.3,-6 -.7,-2.2 -1.5,-1.5 -.5,-1.4 .6,-6.3 -2.4,-5.7 .5,-2.6 .3,-3.7 2.2,-3.8 -.2,-1.1 -1.7,-1 v -3.2 l -1.8,-1.9 -2.9,-6.1 -12.9,-45.8 22.9,-2.9 21.4,-3 -.1,1.9 -1.9,1 -1.4,3.2 .2,1.3 6.1,3.8 2.6,-.3 3.1,4 .4,1.7 4.2,5.1 2.6,1.7 1.4,.2 2.2,1.6 1.1,2.2 2,1.6 1.8,.5 2.7,2.7 .1,1.4 2.6,2.8 5,2.3 3.6,6.7 .3,2.7 3.9,2.1 2.5,4.8 .8,3.1 4.2,.4 z" name="Georgia"></path>  
+    <path d="m 761.8,414.1 v 1.4 l -4.2,6.2 -1.2,.2 1.5,.5 v 2 l -.9,1.1 -.6,6 -2.3,6.2 .5,2 .7,5.1 -3.6,.3 -4,-.7 -1.7,-.9 -2.2,1.4 v 2.5 l 1.4,2.1 -.5,4.3 -2.1,.6 -1,-1.1 -.6,-3.2 -50.1,3.3 -3.3,-6 -.7,-2.2 -1.5,-1.5 -.5,-1.4 .6,-6.3 -2.4,-5.7 .5,-2.6 .3,-3.7 2.2,-3.8 -.2,-1.1 -1.7,-1 v -3.2 l -1.8,-1.9 -2.9,-6.1 -12.9,-45.8 22.9,-2.9 21.4,-3 -.1,1.9 -1.9,1 -1.4,3.2 .2,1.3 6.1,3.8 2.6,-.3 3.1,4 .4,1.7 4.2,5.1 2.6,1.7 1.4,.2 2.2,1.6 1.1,2.2 2,1.6 1.8,.5 2.7,2.7 .1,1.4 2.6,2.8 5,2.3 3.6,6.7 .3,2.7 3.9,2.1 2.5,4.8 .8,3.1 4.2,.4 z" name="Georgia (US)"></path>  
     <path d="m 317,553.7 -.2,3.2 1.7,1.9 .1,1.2 -4.8,4.5 -.1,1.2 1.9,3.2 1.7,4.2 v 2.6 l -.5,1.2 .1,3.4 4.1,2.1 1.1,1.1 1.2,-1.1 2.1,-3.6 4.5,-2.9 3.3,-.5 2.5,-1 1.7,-1.2 3.2,-3.5 -2.8,-1.1 -1.4,-1.4 .1,-1.7 -.5,-.6 h -2 l .2,-2.5 -.7,-1.2 -2.6,-2.3 -4.5,-1.9 -2.8,-.2 -3.3,-2.7 -1.2,-.6 z m -15.3,-17 -1.1,1.5 -.1,1.7 2.7,2.4 1.9,.5 .6,1 .4,3 3.6,.2 5.3,-2.6 -.1,-2.5 -1.4,-.5 -3.5,-2.6 -1.8,-.3 -2.9,1.3 -1.5,-2.7 z m -1.5,11.5 .9,-1.4 2.5,-.3 .6,1.8 z m -7,-8.7 1.7,4 3.1,-.6 .3,-2 -1.4,-1.5 z m -4.1,-6.7 -1.1,2.4 h 5 l 4.8,1.6 2.5,-1.6 .2,-1.5 -4.8,.2 z m -16,-10.6 -1.9,2.1 -2.9,.6 .8,2.2 2.2,2.8 .1,1 2.1,-.3 2.3,.1 1.7,1.2 3.5,-.8 v -.7 l -1,-.8 -.5,-2.1 -.8,-.3 -.5,1 -1.2,-1.3 .2,-1.4 -1.8,-3.3 -1.1,-.7 z m -31.8,-12.4 -4.2,2.9 .2,2.3 2.4,1.2 1.9,1.3 2.7,.4 2.6,-2.2 -.2,-1.9 .8,-1.7 v -1.4 l -1,-.9 z m -10.8,4.8 -.3,1.2 -1.9,.9 -.6,1.8 1,.8 1.1,-1.5 1.9,-.6 .4,-2.6 z" name="Hawaii"></path>  
     <path d="m 165.3,183.1 -24.4,-5.4 8.5,-37.3 2.9,-5.8 .4,-2.1 .8,-.9 -.9,-2 -2.9,-1.2 .2,-4.2 4,-5.8 2.5,-.8 1.6,-2.3 -.1,-1.6 1.8,-1.6 3.2,-5.5 4.2,-4.8 -.5,-3.2 -3.5,-3.1 -1.6,-3.6 1.1,-4.3 -.7,-4 12.7,-56.1 14.2,3 -4.8,22 3.7,7.4 -1.6,4.8 3.6,4.8 1.9,.7 3.9,8.3 v 2.1 l 2.3,3 h .9 l 1.4,2.1 h 3.2 v 1.6 l -7.1,17 -.5,4.1 1.4,.5 1.6,2.6 2.8,-1.4 3.6,-2.4 1.9,1.9 .5,2.5 -.5,3.2 2.5,9.7 2.6,3.5 2.3,1.4 .4,3 v 4.1 l 2.3,2.3 1.6,-2.3 6.9,1.6 2.1,-1.2 9,1.7 2.8,-3.3 1.8,-.6 1.2,1.8 1.6,4.1 .9,.1 -8.5,54.8 -47.9,-8.2 z" name="Idaho"></path>  
     <path d="m 623.5,265.9 -1,5.2 v 2 l 2.4,3.5 v .7 l -.3,.9 .9,1.9 -.3,2.4 -1.6,1.8 -1.3,4.2 -3.8,5.3 -.1,7 h -1 l .9,1.9 v .9 l -2.2,2.7 .1,1.1 1.5,2.2 -.1,.9 -3.7,.6 -.6,1.2 -1.2,-.6 -1,.5 -.4,3.3 1.7,1.8 -.4,2.4 -1.5,.3 -6.9,-3 -4,3.7 .3,1.8 h -2.8 l -1.4,-1.5 -1.8,-3.8 v -1.9 l .8,-.6 .1,-1.3 -1.7,-1.9 -.9,-2.5 -2.7,-4.1 -4.8,-1.3 -7.4,-7.1 -.4,-2.4 2.8,-7.6 -.4,-1.9 1.2,-1.1 v -1.3 l -2.8,-1.5 -3,-.7 -3.4,1.2 -1.3,-2.3 .6,-1.9 -.7,-2.4 -8.6,-8.4 -2.2,-1.5 -2.5,-5.9 -1.2,-5.4 1.4,-3.7 .7,-.7 .1,-2.3 -.7,-.9 1,-1.5 1.8,-.6 .9,-.3 1,-1.2 v -2.4 l 1.7,-2.4 .5,-.5 .1,-3.5 -.9,-1.4 -1,-.3 -1.1,-1.6 1,-4 3,-.8 h 2.4 l 4.2,-1.8 1.7,-2.2 .1,-2.4 1.1,-1.3 1.3,-3.2 -.1,-2.6 -2.8,-3.5 h -1.2 l -.9,-1.1 .2,-1.6 -1.7,-1.7 -2.5,-1.3 .5,-.6 45.9,-2.8 .1,4.6 3.4,4.6 1.2,4.1 1.6,3.2 z" name="Illinois"></path>  
@@ -1271,24 +1286,31 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Log the csvData variable to the console
     console.log(csvData);
 
+    // Select all the path elements within the Us SVG element
+    var countries = usSvg.querySelectorAll('path');
+
+    // Status
+    // Create an object to store the mapping between country names and status values
+    var countryStatuses = {};
+
+    // Loop through the csvData array
+    csvData.forEach(function(row) {
+      // Get the country name and status value from the current row
+      var countryName = row["ï»¿Country/Region"];
+      var status = row["Status"];
+      countryStatuses[countryName] = status;
+    });
+
     // Extend the downloadLinks object with data from the CSV file
     csvData.forEach(row => {
       const countryName = row['ï»¿Country/Region'];
       const downloadLink = row['DOI-Link'];
-      if (!downloadLinks.hasOwnProperty(countryName)) {
+      if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
         downloadLinks[countryName] = downloadLink;
       }
-    }); 
-var currentCountry = null;
-
-// Select all the path elements within the Europe SVG element
-var countries = usSvg.querySelectorAll('path');
+    });  
 
 countries.forEach(function(country) {
-
-// Status
-// Create an object to store the mapping between country names and status values
-var countryStatuses = {};
 
 // Loop through the csvData array
 csvData.forEach(function(row) {
@@ -1307,7 +1329,7 @@ var status = countryStatuses[countryName];
 if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
   country.classList.add("available_eu");
 }
-if (status === "Eingereicht") {
+if (status === "Produziert") {
   country.classList.add("available_eu_soon");
 }
 
@@ -1342,7 +1364,10 @@ country.addEventListener("mouseover", function(event) {
     }
   }
 } else {
-  if (countryYears.hasOwnProperty(countryName)) {
+  if (countryStatuses[countryName] === "Ausstehend") {
+    // If the status of the country is "Ausstehend", only display its name and "Data Unavailable"
+    countryNameElement.innerHTML = `${countryName}<br>Data Unavailable`;
+  } else if (countryYears.hasOwnProperty(countryName)) {
     // If the country is present in all objects except downloadLinks, display its name, years value, code version, and code specification
     countryNameElement.innerHTML = `${countryName}<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
   } else {
@@ -1350,6 +1375,7 @@ country.addEventListener("mouseover", function(event) {
     countryNameElement.innerHTML = countryName + '<br>Data Unavailable';
   }
 }
+
 countries.forEach(function(country) {
   country.addEventListener("mouseout", function() {
     // Hide the countryNameElement
@@ -1509,7 +1535,7 @@ europeElements.forEach(function(europe) {
  </path>
  <path d="M751.4 483.2l-2-2.3 0.9-0.7-1.4-5-0.1-2.6 0.9-4.8-0.5-2.9-1.4-2.3-1.4-2.9-3-2.1-1.3-1.7-2.1-1.8-2.5-3.2-1.5-1.3-3-4.9-2.5-3-2.5-1.6-2.1 0 0.2-0.6 2.3-1.4 0.7 0.2 4 0.1 1.2-1 0.8 0.3 1.6-1 3.5 1 3.6 2.4 2.5 0.3 0.6 1.2 5.6 0.6 1.4 1.9 1.4 1 1.4-0.7 1.4 1.4 0.6 2.3-0.6 3.1 0.6 1.2 2.3 1.2 2.9 2 0 2.4 0.9 1.9 2 1.3 2.1 0.8 1 1.6 0.2 2.9 2.9 1.7-0.6 0.7-2.9 0.4-1.2-1.3-1.6 0.6-2.1-0.8-1.9-0.2-2.1-1-2.5 1.6 0.5 2.1 1 1.7-0.4 2-2.3 1.7 0 1.3-2.5 2.9 0.5 1.4-0.4 1-2 0.2-1.1 0.7z" id="MD" name="Moldova">
  </path>
- <path d="M683.8 531.8l3.3 3.2 3.4 1.8 1.7 3.3 0.9 1-0.5 1.7 0 4.2-2 0.3-0.2 2.1-2.9 1-3.3-0.6-3 0.4-0.8 0.3-1.7 2.5-2.4 1.3-2.3-0.6-0.9 0.6-4.6 0.3-1.3-1.1-1.6 0.2-1.3-2.4-1.2-1.1-1.2-2.2-0.2-1.9-0.7-2 0.8-0.8-0.3-2.1 0.5-2.6 1.7 0.3 0.5-0.8 0.2-2.6 3.4-1.5 1-0.1 1.6 1.2 1.5-1.9 2.1-0.4 2.2-0.3 2-0.9 1.9 0.3 2.3-0.8 1.4 0.7z" id="MK" name="Macedonia">
+ <path d="M683.8 531.8l3.3 3.2 3.4 1.8 1.7 3.3 0.9 1-0.5 1.7 0 4.2-2 0.3-0.2 2.1-2.9 1-3.3-0.6-3 0.4-0.8 0.3-1.7 2.5-2.4 1.3-2.3-0.6-0.9 0.6-4.6 0.3-1.3-1.1-1.6 0.2-1.3-2.4-1.2-1.1-1.2-2.2-0.2-1.9-0.7-2 0.8-0.8-0.3-2.1 0.5-2.6 1.7 0.3 0.5-0.8 0.2-2.6 3.4-1.5 1-0.1 1.6 1.2 1.5-1.9 2.1-0.4 2.2-0.3 2-0.9 1.9 0.3 2.3-0.8 1.4 0.7z" id="MK" name="North Macedonia">
  </path>
  <path d="M642.4 512.9l0.4 1.2 2.6 1.7 1.9 2 3 1.6 2.1 0.5 5.3 2.9 0.1 1-1.6 0.4-0.2 0.7-2 0.4 0.9 1.5-0.2 1.3-3.4 1.2-0.8-2.1-1.1-0.3-3.2 5.3-0.8 0.3-2.5-0.2 1.6 1.9 1.7 0.8 0.3 0.6 0 3.1-2.1-1.2-0.9-1.8-3.1-2.9-3.5-2 0.1-1-1.6 0.1-1.2-1.9 1.1-1 0.1-0.8-1.1-1.6-0.6-3 0.5-0.7 1.7-0.2-0.1-1.5 0.5-1.7 2-1.7 2.3-0.2-1.4-2.2 3.2-0.5z" id="ME" name="Montenegro">
  </path>
@@ -1566,24 +1592,37 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     const content = data.content;
     const decodedContent = atob(content);
 
-    // Parse the CSV data
-    const csvData = Papa.parse(decodedContent, { header: true }).data;
+// Parse the CSV data
+const csvData = Papa.parse(decodedContent, { header: true }).data;
 
-    // Log the csvData variable to the console
-    console.log(csvData);
-
-    // Extend the downloadLinks object with data from the CSV file
-    csvData.forEach(row => {
-      const countryName = row['ï»¿Country/Region'];
-      const downloadLink = row['DOI-Link'];
-      if (!downloadLinks.hasOwnProperty(countryName)) {
-        downloadLinks[countryName] = downloadLink;
-      }
-    }); 
-var currentCountry = null;
+// Log the csvData variable to the console
+console.log(csvData);
 
 // Select all the path elements within the Europe SVG element
 var countries = europeSvg.querySelectorAll('path');
+
+// Status
+// Create an object to store the mapping between country names and status values
+var countryStatuses = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and status value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var status = row["Status"];
+  countryStatuses[countryName] = status;
+});
+
+// Extend the downloadLinks object with data from the CSV file
+csvData.forEach(row => {
+  const countryName = row['ï»¿Country/Region'];
+  const downloadLink = row['DOI-Link'];
+  if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
+    downloadLinks[countryName] = downloadLink;
+  }
+});  
+
+var currentCountry = null;
 
 countries.forEach(function(country) {
 
@@ -1608,7 +1647,7 @@ var status = countryStatuses[countryName];
 if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
   country.classList.add("available_eu");
 }
-if (status === "Eingereicht") {
+if (status === "Produziert") {
   country.classList.add("available_eu_soon");
 }
 
@@ -1643,7 +1682,10 @@ country.addEventListener("mouseover", function(event) {
     }
   }
 } else {
-  if (countryYears.hasOwnProperty(countryName)) {
+  if (countryStatuses[countryName] === "Ausstehend") {
+    // If the status of the country is "Ausstehend", only display its name and "Data Unavailable"
+    countryNameElement.innerHTML = `${countryName}<br>Data Unavailable`;
+  } else if (countryYears.hasOwnProperty(countryName)) {
     // If the country is present in all objects except downloadLinks, display its name, years value, code version, and code specification
     countryNameElement.innerHTML = `${countryName}<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
   } else {
