@@ -264,8 +264,8 @@ overflow-y: hidden;
   #email-link::before {
 	content: "";
 	position: absolute;
-	top: -25px;
-	bottom: -25px;
+	top: -22px;
+	bottom: -22px;
 	left: 0;
 	right: 0;
   }
