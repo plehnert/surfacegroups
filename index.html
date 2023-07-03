@@ -1906,7 +1906,7 @@ observer.observe(parentElement, { childList: true });
   </div>
   <div class="color-box-container">
     <div class="color-box green"></div>
-    <p>Data Available Soon: Data produced but not yet available from SWISSUbase. Contact patrick.lehnert(at)business.uzh.ch.</p>
+    <p>Data Available Soon: Data produced but not yet available from SWISSUbase. Contact <a href="mailto:patrick.lehnert@business.uzh.ch" id="email-link">patrick.lehnert@business.uzh.ch</a>.</p>
   </div>
   <div class="color-box-container">
     <div class="color-box dark-grey"></div>
@@ -1922,12 +1922,36 @@ var isMouseOver = false;
 function handleMouseOver() {
   isMouseOver = true;
   setTimeout(function() {
-    if (isMouseOver) {
+    // Check if the mouse is currently over the email link
+    if (isMouseOver && !emailLink.matches(":hover")) {
       box.style.opacity = "0";
       box.style.pointerEvents = "none";
     }
-  }, 1);
+  }, getTimeoutDuration());
 }
+
+function getTimeoutDuration() {
+  // Get the position of the mouse cursor
+  var x = event.clientX;
+  var y = event.clientY;
+
+  // Get the position and size of the email link
+  var emailLinkRect = emailLink.getBoundingClientRect();
+
+  // Calculate the distance between the mouse cursor and the center of the email link
+  var dx = x - (emailLinkRect.left + emailLinkRect.width / 2);
+  var dy = y - (emailLinkRect.top + emailLinkRect.height / 2);
+  var distance = Math.sqrt(dx * dx + dy * dy);
+
+  // Set the timeout duration based on the distance
+  if (distance < 250) {
+    return 500;
+  } else {
+    return 1;
+  }
+}
+
+
 
 function handleMouseOut() {
   isMouseOver = false;
@@ -1946,6 +1970,17 @@ document.addEventListener("mousemove", function(event) {
 window.addEventListener("resize", function() {
   boxRect = box.getBoundingClientRect();
 });
+
+// Prevent the box from disappearing when hovering over the email link
+var emailLink = document.querySelector("#email-link");
+emailLink.addEventListener("mouseover", function(event) {
+  console.log("Email link mouseover event triggered"); // Log a message to the console
+  event.stopPropagation();
+  console.log("event.stopPropagation() called"); // Log another message to the console
+});
+
+</script>
+
 
 
 
