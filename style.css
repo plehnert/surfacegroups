@@ -103,10 +103,8 @@ svg.hover g[name="Europe"] path {
 .back-button {
 	/* Add your styles here */
 	position: fixed;
-	top: 15px;
-	left: 6.8%;
-	transform: translateX(-50%);
-	/* ... */
+	top: 20px;
+	left: 20px;
 	background-color: white;
 	border: 1px solid black;
 	padding: 5px;
@@ -258,6 +256,22 @@ overflow-y: hidden;
 	
 	  
   }
+
+  #email-link {
+	position: relative;
+  }
+  
+  #email-link::before {
+	content: "";
+	position: absolute;
+	top: -25px;
+	bottom: -25px;
+	left: 0;
+	right: 0;
+  }
+  
+  
+  
 
 
   
