@@ -44,7 +44,7 @@ body {
 
   #country-name {
 	position: absolute;
-	display: block; /* Change display property to block */
+	display: none; /* Change display property to block */
 	background-color: white;
 	border: 1px solid rgb(0, 0, 0);
 	padding: 5px;
@@ -103,15 +103,15 @@ svg.hover g[name="Europe"] path {
 .back-button {
 	/* Add your styles here */
 	position: fixed;
-	bottom: 10px;
-	left: 50%;
+	top: 15px;
+	left: 6.8%;
 	transform: translateX(-50%);
 	/* ... */
 	background-color: white;
 	border: 1px solid black;
 	padding: 5px;
 	font-family: 'Times New Roman', Times, serif; /* Set the font family */
-	font-size: 17px; /* Change the font size */
+	font-size: 19px; /* 17 */
   }
   
 
@@ -162,12 +162,12 @@ h1 {
 
   .europe-map {
 	width: 1300px;
-	height: 750px;
+	height: 670px; /*750*/
   }
   
   .us-map {
 	width: 1000px;
-	height: 650px;
+	height: 570px;
   }
   
 
@@ -212,16 +212,17 @@ overflow-y: hidden;
 
 /* CSS */
 .box {
-	position: fixed;
-	top: 50%;
-	right: 10px;
-	transform: translateY(-50%);
-	background-color: white;
-	border: 1px solid black;
-	padding: 10px;
-	transition: opacity 0.5s;
-  }
-  
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  transition: opacity 0.5s;
+}
+
+    
   .color-box-container {
 	display: flex;
 	align-items: center;
@@ -250,4 +251,14 @@ overflow-y: hidden;
   .dark-green {
   	background-color: darkgreen;
   }
+
+  .box p {
+	line-height: 0.1;
+	white-space: nowrap;
+	
+	  
+  }
+
+
+  
   
