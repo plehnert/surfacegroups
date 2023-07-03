@@ -1895,6 +1895,12 @@ svgElement.addEventListener('mouseover', function(event) {
 // Start observing changes to the parent element's childList
 observer.observe(parentElement, { childList: true });
 
+try {
+  // Your code here
+} catch (error) {
+  // Display a message to the user
+  alert("An error occurred while running the code. Please try again.");
+}
 
 
     </script>
