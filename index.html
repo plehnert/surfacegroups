@@ -1943,6 +1943,10 @@ observer.observe(parentElement, { childList: true });
     }
   });
 
+  window.addEventListener("resize", function() {
+  boxRect = box.getBoundingClientRect();
+});
+
 
 
 
