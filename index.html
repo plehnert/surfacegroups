@@ -1943,6 +1943,40 @@ svgElement.addEventListener('mouseover', function(event) {
 });
 </script>
 
+
+<!-- Add a div element to hold the message -->
+<div id="fallback-message" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;">
+  If you are seeing this message, please run this website on Google Chrome, Firefox or Microsoft Edge on a computer.
+</div>
+
+ <script>
+// Get the position and size of the fallback message
+var fallbackMessage = document.querySelector("#fallback-message");
+var fallbackMessageRect = fallbackMessage.getBoundingClientRect();
+
+// Calculate the coordinates of the center of the fallback message
+var x = fallbackMessageRect.left + fallbackMessageRect.width / 2;
+var y = fallbackMessageRect.top + fallbackMessageRect.height / 2;
+
+// Check if there is an element positioned at these coordinates
+var elementAtPoint = document.elementFromPoint(x, y);
+if (elementAtPoint && elementAtPoint !== fallbackMessage) {
+  // Hide the fallback message
+  fallbackMessage.style.display = "none";
+}
+
+</script> 
+
+
+
+
+
+
+
+
+
+
+
 	</body>
 <html>
   
