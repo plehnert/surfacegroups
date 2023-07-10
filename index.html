@@ -1042,6 +1042,7 @@ countries.forEach(function(country) {
     country.classList.add("available_soon");
   }
 
+
   country.addEventListener("mouseover", function(event) {
     // Check if the cursor has moved over a new country
     if (countryName !== currentCountry) {
@@ -1157,20 +1158,24 @@ countries.forEach(function(country) {
 });
 
 
-     // Add a class to all g elements with the same name attribute on mouseover
-    countries.forEach(function(country) {
-    var countryName = country.getAttribute("name");
-    if (downloadLinks[countryName]) {
+countries.forEach(function(country) {
+  var countryName = country.getAttribute("name");
+  if (downloadLinks[countryName]) {
     country.addEventListener("mouseover", function() {
       var sameNameCountries = document.querySelectorAll('g[name="' + countryName + '"]');
       sameNameCountries.forEach(function(sameNameCountry) {
-        sameNameCountry.classList.add("highlight");
+        if (sameNameCountry.classList.contains("available_soon")) {
+          sameNameCountry.classList.add("highlight_available_soon");
+        } else {
+          sameNameCountry.classList.add("highlight");
+        }
       });
     });
     country.addEventListener("mouseout", function() {
       var sameNameCountries = document.querySelectorAll('g[name="' + countryName + '"]');
       sameNameCountries.forEach(function(sameNameCountry) {
         sameNameCountry.classList.remove("highlight");
+        sameNameCountry.classList.remove("highlight_available_soon");
       });
     });
   }
@@ -1183,8 +1188,6 @@ countries.forEach(function(country) {
   });
 });
 
-// Create a variable to store a reference to the World SVG element
-var worldSvg;
 
 // Create a "Back to World Map" button
 var backButton = document.createElement("button");
@@ -1192,6 +1195,9 @@ backButton.innerHTML = "Back to World Map";
 backButton.classList.add("back-button"); // Add a class to the button
 backButton.style.display = "none"; // Initially hide the button
 document.body.appendChild(backButton);
+
+// Create a variable to store a reference to the World SVG element
+var worldSvg;
 
 var usaElements = document.querySelectorAll('g[name="United States"]');
 usaElements.forEach(function(usa) {
@@ -1268,10 +1274,6 @@ worldSvg.parentNode.replaceChild(usSvg, worldSvg);
  // Show the "Back to World Map" button
  backButton.style.display = "block";
 
-// Displaying Download Available or Download Unavailable Depending on the Download Link
-var downloadLinkElement = document.querySelector("#download-link");
-var downloadLinks = {};
-
 
 fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
   .then(response => response.json())
@@ -1331,6 +1333,9 @@ if (countryName === "United States" || countryName === "Europe" || status === "P
 if (status === "Produziert") {
   country.classList.add("available_eu_soon");
 }
+
+// Initially hide the countryNameElement
+countryNameElement.style.display = 'none';
 
 country.addEventListener("mouseover", function(event) {
     // Check if the cursor has moved over a new country
@@ -1465,8 +1470,8 @@ backButton.addEventListener("click", function() {
   var svg = document.querySelector('svg.hover');
  if (svg) {
  svg.classList.remove('hover');
- }
-});
+ }});
+
 
 
 var europeElements = document.querySelectorAll('g[name="Europe"]');
@@ -1579,12 +1584,7 @@ worldSvg.parentNode.replaceChild(europeSvg, worldSvg);
  // Show the "Back to World Map" button
  backButton.style.display = "block";
 
-// Displaying Download Available or Download Unavailable Depending on the Download Link
-var downloadLinkElement = document.querySelector("#download-link");
-var downloadLinks = {
  
-};
-
 fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
   .then(response => response.json())
   .then(data => {
@@ -1650,6 +1650,9 @@ if (status === "Produziert") {
   country.classList.add("available_eu_soon");
 }
 
+// Initially hide the countryNameElement
+countryNameElement.style.display = 'none';
+
 country.addEventListener("mouseover", function(event) {
     // Check if the cursor has moved over a new country
     if (countryName !== currentCountry) {
@@ -1699,8 +1702,8 @@ countries.forEach(function(country) {
   });
 });
 
-
 });
+
  // Downloading the Data
  countries.forEach(function(country) {
  country.addEventListener("click", function() {
@@ -1769,9 +1772,6 @@ if (countryYears.hasOwnProperty(countryName)) {
 });
 });
 
-
-
-
 // Add a mouseover event listener to the Europe elements
 europeElements.forEach(function(europe) {
   europe.addEventListener('mouseover', function() {
@@ -1813,15 +1813,13 @@ document.addEventListener('mousemove', function(event) {
       europe.classList.remove('highlight');
     });
   }
-   // If the cursor is not over any of the Europe elements, remove the hover class from their parent svg element
+   // If the cursor is not over any of the Europe elements, 
+   //remove the hover class from their parent svg element
  if (!isCursorOverEurope) {
  var svg = document.querySelector('svg.hover');
  if (svg) {
  svg.classList.remove('hover');
- }
- }
-
-});
+ }}});
 
 
 // Removing the dark green when coming back from the US map 
@@ -1846,53 +1844,10 @@ document.addEventListener('mousemove', function(event) {
     unitedStatesElements.forEach(function(unitedStates) {
       unitedStates.classList.remove('highlight');
     });
-  }
-});
+  }});});}); 
 
 
-// this }): below is very important for the code loading the csv file, don't delete
-});
-}); 
-
-
-    </script>
-    <script>
-
-console.log('Script started');
-
-// Select the parent element of the SVG element
-var parentElement = document.querySelector('#map-container');
-
-// Create a MutationObserver to listen for changes to the DOM
-var observer = new MutationObserver(function(mutations) {
-console.log('MutationObserver callback called');
- mutations.forEach(function(mutation) {
- // Check if nodes were added
- if (mutation.addedNodes.length > 0) {
- // Loop through the added nodes
- mutation.addedNodes.forEach(function(node) {
- // Check if the added node is an SVG element with the class 'us-map'
- if (node.nodeName === 'svg' && node.classList.contains('us-map')) {
-console.log('SVG element with class "us-map" added to DOM');
-// Select the SVG element
-var svgElement = document.querySelector('svg.us-map');
-
-// Add a 'mouseover' event listener to the SVG element
-svgElement.addEventListener('mouseover', function(event) {
- // Check if the target of the event is a state element
- if (event.target.nodeName === 'path' && event.target.classList.contains('state')) {
- // Get the name of the state from its title element
- var stateName = event.target.querySelector('title').textContent;
- console.log('Hovering over ' + stateName);
- }
-});
- }
- });
- }
- });
-});
-
-    </script>
+</script>
 
 <div class="box" onmouseover="handleMouseOver()">
   <div class="color-box-container">
