@@ -1,9 +1,27 @@
 /* ----- style.css ----- */
-
 /* Defines the font of the header*/
 h1 {
 	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+	color: rgb(0, 0, 0);
+	text-align: center;
+	margin: 20px 0;
 }
+
+/* The width, colour of the boarder etc. */
+#map-container {
+position: relative;
+width: 95%;
+border: 0px solid rgb(39, 28, 19);
+border-radius: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+  }
+
+/* No scrolling on the website */
+body {
+	overflow-y: hidden;
+	  }
 
 /* Defines the colour of the SVG elements and properties about it's outline*/
 svg path {
@@ -41,7 +59,6 @@ body {
 	cursor: pointer;
   }
 
-
   #country-name {
 	position: absolute;
 	display: none; /* Change display property to block */
@@ -56,21 +73,22 @@ body {
 }
 
 
+/* Managing the highlight colour of countries hovered over on the world */
+.highlight path {
+	fill: darkgreen;
+	transition: 0.6s;
+	cursor: pointer;
+  }
+  
+  /* Managing the highlight colour of countries hovered over on the world */
+  .highlight_available_soon path {
+	  fill: #6f6f6f;
+	  transition: 0.6s;
+	  cursor: pointer;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Set the stroke color of the path elements within the Europe elements to the same color as their fill color */
+/* Set the stroke color of the path elements within the Europe elements 
+to the same color as their fill color */
 g[name="Europe"] path {
 	stroke: rgb(69, 129, 69);
   }
@@ -79,27 +97,13 @@ g[name="Europe"] path {
 g[name="Europe"] path {
 	stroke-width: 2;
   }
-
-
   
-/* Set the stroke color of all the path elements within the Europe elements to darkgreen when their parent svg element has the hover class */
+/* Set the stroke color of all the path elements within the Europe elements to 
+darkgreen when their parent svg element has the hover class */
 svg.hover g[name="Europe"] path {
 	stroke: darkgreen;
   }
   
-/* Modify your CSS to target the path element within the g element with the class .available */
-.available path {
-    fill: rgb(69, 129, 69);
-}
-
-/* Managing the highlight colour of countries hovered over on the world */
-.highlight path {
-  fill: darkgreen;
-  transition: 0.6s;
-  cursor: pointer;
-}
-
-
 .back-button {
 	/* Add your styles here */
 	position: fixed;
@@ -109,72 +113,25 @@ svg.hover g[name="Europe"] path {
 	border: 1px solid black;
 	padding: 5px;
 	font-family: 'Times New Roman', Times, serif; /* Set the font family */
-	font-size: 19px; /* 17 */
+	font-size: 19px;
   }
   
-
 .back-button:hover {
 	background-color: lightgrey;
 }
 
-
-/* The colour of the title*/
-h1 {
-	color: rgb(0, 0, 0);
-	text-align: center;
-	margin: 20px 0;
-  }
-
-  /* The width, colour of the boarder etc. */
-  #map-container {
-	position: relative;
-	width: 95%;
-	border: 0px solid rgb(39, 28, 19);
-	border-radius: 10px;
-	
-  }
-
-  .has-download-link {
-	fill: #86d886; /* Change this to the color you want */
-  }
-  
-  .new-map {
-	width: 70%;
-  }
-  
-
-  #map-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }
-
-  .hidden {
-	display: none;
-  }
-
-  
-  .state path {
-	pointer-events: none;
-  }
-
-  .europe-map {
-	width: 1300px;
-	height: 670px; /*750*/
-  }
-  
-  .us-map {
+.us-map {
 	width: 1000px;
 	height: 570px;
   }
-  
+
 
 /* Modify your CSS to target the path element with the class .available */
 .available_eu {
 	fill: rgb(69, 129, 69);
    }
    
-   .available_eu:hover {
+.available_eu:hover {
 	fill: darkgreen;
 	transition: 0.6s;
 	cursor: pointer;
@@ -185,28 +142,16 @@ h1 {
 	fill: rgb(136, 167, 125);
    }
    
-   .available_eu_soon:hover {
+.available_eu_soon:hover {
 	fill: rgb(117, 117, 117);
 	transition: 0.6s;
 	cursor: pointer;
    }
 
-/* Modify your CSS to target the path element with the class .available */
-.available_us {
-	fill: rgb(69, 129, 69);
-   }
-   
-   .available_us:hover {
-	fill: darkgreen;
-	transition: 0.6s;
-	cursor: pointer;
-   }
-
-body {
-overflow-y: hidden;
+.europe-map {
+	width: 1300px;
+	height: 670px; /*750*/
   }
-   
-
 
 /* CSS */
 .box {
@@ -253,8 +198,6 @@ overflow-y: hidden;
   .box p {
 	line-height: 0.1;
 	white-space: nowrap;
-	
-	  
   }
   
   
