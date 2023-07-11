@@ -148,6 +148,11 @@ svg.hover g[name="Europe"] path {
 	cursor: pointer;
    }
 
+.brazil-map {
+	width: 1000px;
+	height: 1220px;
+  }
+
 .europe-map {
 	width: 1300px;
 	height: 670px; /*750*/
@@ -200,10 +205,6 @@ svg.hover g[name="Europe"] path {
 	white-space: nowrap;
   }
   
-  
-.brazil-map {
-	width: 1000px;
-	height: 1220px;
-  }
+
   
   
