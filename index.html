@@ -975,7 +975,7 @@ var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {
   "Europe": "https://www.google.ch/",
   "United States": "https://www.google.ch/",
-  "Brazil": "",
+  "Brazil": "https://www.google.ch/",
       };
 
 const username = 'plehnert';
@@ -1153,7 +1153,7 @@ if (countryYears.hasOwnProperty(countryName)) {
 countries.forEach(function(country) {
   country.addEventListener("click", function() {
     var countryName = country.getAttribute("name");
-    if (countryName !== "Europe" && countryName !== "United States") {
+    if (countryName !== "Europe" && countryName !== "United States" && countryName !== "Brazil") {
       var downloadLink = downloadLinks[countryName];
       if (downloadLink) {
         window.location.href = downloadLink;
@@ -1193,13 +1193,15 @@ countries.forEach(function(country) {
   });
 });
 
-
 // Create a "Back to World Map" button
 var backButton = document.createElement("button");
 backButton.innerHTML = "Back to World Map";
 backButton.classList.add("back-button"); // Add a class to the button
 backButton.style.display = "none"; // Initially hide the button
 document.body.appendChild(backButton);
+
+
+//UNITED STATES
 
 // Create a variable to store a reference to the World SVG element
 var worldSvg;
@@ -1333,7 +1335,7 @@ countryStatuses[countryName] = status;
 var countryName = country.getAttribute("name");
 var downloadLink = downloadLinks[countryName];
 var status = countryStatuses[countryName];
-if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
+if (status === "Publiziert") {
   country.classList.add("available_eu");
 }
 if (status === "Produziert") {
@@ -1478,6 +1480,9 @@ backButton.addEventListener("click", function() {
  svg.classList.remove('hover');
  }});
 
+ 
+ //BRAZIL
+
  var brazilElements = document.querySelectorAll('g[name="Brazil"]');
  brazilElements.forEach(function(brazil) {
  brazil.addEventListener("click", function() {
@@ -1549,13 +1554,12 @@ backButton.addEventListener("click", function() {
  </path>
 `;
 
-console.log('Script started')
-
-
 // Replace the old SVG with the new one
 worldSvg.parentNode.replaceChild(brazilSvg, worldSvg);
 // Show the "Back to World Map" button
 backButton.style.display = "block";
+
+
 fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
   .then(response => response.json())
   .then(data => {
@@ -1573,7 +1577,7 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Log the csvData variable to the console
     console.log(csvData);
 
-    // Select all the path elements within the Us SVG element
+    // Select all the path elements within the Brazil SVG element
     var countries = brazilSvg.querySelectorAll('path');
 
     // Status
@@ -1613,7 +1617,7 @@ countryStatuses[countryName] = status;
 var countryName = country.getAttribute("name");
 var downloadLink = downloadLinks[countryName];
 var status = countryStatuses[countryName];
-if (countryName === "United States" || countryName === "Europe" || countryName === "Brazil" ||status === "Publiziert") {
+if (status === "Publiziert") {
   country.classList.add("available_eu");
 }
 if (status === "Produziert") {
@@ -1742,6 +1746,8 @@ if (countryYears.hasOwnProperty(countryName)) {
 
 });});});
 
+
+//EUROPE
 
 var europeElements = document.querySelectorAll('g[name="Europe"]');
 europeElements.forEach(function(europe) {
@@ -1914,7 +1920,7 @@ countryStatuses[countryName] = status;
 var countryName = country.getAttribute("name");
 var downloadLink = downloadLinks[countryName];
 var status = countryStatuses[countryName];
-if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
+if (status === "Publiziert") {
   country.classList.add("available_eu");
 }
 if (status === "Produziert") {
@@ -2063,7 +2069,6 @@ europeElements.forEach(function(europe) {
 
 
 
-
 // Removing the dark green when coming back from the europe map 
 // Add a mousemove event listener to the document object
 document.addEventListener('mousemove', function(event) {
@@ -2092,6 +2097,29 @@ document.addEventListener('mousemove', function(event) {
  svg.classList.remove('hover');
  }}});
 
+
+// Removing the dark green when coming back from the Brazil map 
+// Add a mousemove event listener to the document object
+document.addEventListener('mousemove', function(event) {
+  // Get the position of the cursor
+  var x = event.clientX;
+  var y = event.clientY;
+  // Check if the cursor is over any of the Brazil elements
+  var isCursorOverBrazil= false;
+  brazilElements.forEach(function(brazil) {
+    var rect =  brazil.getBoundingClientRect();
+    if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+      isCursorOverBrazil = true;
+    }
+  });
+  // If the cursor is not over any of the Brazil elements, remove the highlight class
+  if (!isCursorOverBrazil) {
+    brazilElements.forEach(function(brazil) {
+      brazil.classList.remove('highlight');
+    });
+  }
+ });
+ 
 
 // Removing the dark green when coming back from the US map 
 // Define unitedStatesElements variable
