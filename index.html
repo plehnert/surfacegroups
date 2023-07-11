@@ -986,10 +986,14 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
   .then(response => response.json())
   .then(data => {
     const content = data.content;
-    const decodedContent = atob(content);
+    // Decode the base64-encoded content and convert it to a UTF-8 encoded string
+    const decodedContent = new TextDecoder('utf-8').decode(Uint8Array.from(atob(content), c => c.charCodeAt(0)));
 
     // Parse the CSV data
     const csvData = Papa.parse(decodedContent, { header: true }).data;
+    
+    // Log the decoded content to the console
+    console.log(decodedContent);
 
     // Log the csvData variable to the console
     console.log(csvData);
@@ -1001,14 +1005,14 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Loop through the csvData array
     csvData.forEach(function(row) {
       // Get the country name and status value from the current row
-      var countryName = row["ï»¿Country/Region"];
+      var countryName = row["Country/Region"];
       var status = row["Status"];
       countryStatuses[countryName] = status;
     });
 
     // Extend the downloadLinks object with data from the CSV file
     csvData.forEach(row => {
-      const countryName = row['ï»¿Country/Region'];
+      const countryName = row['Country/Region'];
       const downloadLink = row['DOI-Link'];
       if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
         downloadLinks[countryName] = downloadLink;
@@ -1026,7 +1030,7 @@ countries.forEach(function(country) {
   csvData.forEach(function(row) {
 
   // Get the country name and status value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var status = row["Status"];
 
   // Add the country name and status value to the countryStatuses object
@@ -1097,7 +1101,7 @@ var countryYears = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and years value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var years = row["Years"];
 
   // Add the country name and years value to the countryYears object
@@ -1112,7 +1116,7 @@ var countryCodeVersions = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code version value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeVersion = row["Code Version"];
 
   // Add the country name and code version value to the countryCodeVersions object
@@ -1127,7 +1131,7 @@ var countryCodeSpecifications = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code specification value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeSpecification = row["Code Specification"];
 
   // Add the country name and code specification value to the countryCodeSpecifications object
@@ -1280,7 +1284,8 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
   .then(response => response.json())
   .then(data => {
     const content = data.content;
-    const decodedContent = atob(content);
+    // Decode the base64-encoded content and convert it to a UTF-8 encoded string
+    const decodedContent = new TextDecoder('utf-8').decode(Uint8Array.from(atob(content), c => c.charCodeAt(0)));
 
     // Parse the CSV data
     const csvData = Papa.parse(decodedContent, { header: true }).data;
@@ -1298,14 +1303,14 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Loop through the csvData array
     csvData.forEach(function(row) {
       // Get the country name and status value from the current row
-      var countryName = row["ï»¿Country/Region"];
+      var countryName = row["Country/Region"];
       var status = row["Status"];
       countryStatuses[countryName] = status;
     });
 
     // Extend the downloadLinks object with data from the CSV file
     csvData.forEach(row => {
-      const countryName = row['ï»¿Country/Region'];
+      const countryName = row['Country/Region'];
       const downloadLink = row['DOI-Link'];
       if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
         downloadLinks[countryName] = downloadLink;
@@ -1318,7 +1323,7 @@ countries.forEach(function(country) {
 csvData.forEach(function(row) {
 
 // Get the country name and status value from the current row
-var countryName = row["ï»¿Country/Region"];
+var countryName = row["Country/Region"];
 var status = row["Status"];
 
 // Add the country name and status value to the countryStatuses object
@@ -1407,7 +1412,7 @@ var countryYears = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and years value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var years = row["Years"];
 
   // Add the country name and years value to the countryYears object
@@ -1422,7 +1427,7 @@ var countryCodeVersions = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code version value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeVersion = row["Code Version"];
 
   // Add the country name and code version value to the countryCodeVersions object
@@ -1437,7 +1442,7 @@ var countryCodeSpecifications = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code specification value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeSpecification = row["Code Specification"];
 
   // Add the country name and code specification value to the countryCodeSpecifications object
@@ -1555,7 +1560,12 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
   .then(response => response.json())
   .then(data => {
     const content = data.content;
-    const decodedContent = atob(content);
+    
+    // Decode the base64-encoded content and convert it to a UTF-8 encoded string
+    const decodedContent = new TextDecoder('utf-8').decode(Uint8Array.from(atob(content), c => c.charCodeAt(0)));
+
+    // Log the csvData variable to the console
+    console.log(decodedContent);
 
     // Parse the CSV data
     const csvData = Papa.parse(decodedContent, { header: true }).data;
@@ -1573,14 +1583,14 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Loop through the csvData array
     csvData.forEach(function(row) {
       // Get the country name and status value from the current row
-      var countryName = row["ï»¿Country/Region"];
+      var countryName = row["Country/Region"];
       var status = row["Status"];
       countryStatuses[countryName] = status;
     });
 
     // Extend the downloadLinks object with data from the CSV file
     csvData.forEach(row => {
-      const countryName = row['ï»¿Country/Region'];
+      const countryName = row['Country/Region'];
       const downloadLink = row['DOI-Link'];
       if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
         downloadLinks[countryName] = downloadLink;
@@ -1593,7 +1603,7 @@ countries.forEach(function(country) {
 csvData.forEach(function(row) {
 
 // Get the country name and status value from the current row
-var countryName = row["ï»¿Country/Region"];
+var countryName = row["Country/Region"];
 var status = row["Status"];
 
 // Add the country name and status value to the countryStatuses object
@@ -1682,7 +1692,7 @@ var countryYears = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and years value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var years = row["Years"];
 
   // Add the country name and years value to the countryYears object
@@ -1697,7 +1707,7 @@ var countryCodeVersions = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code version value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeVersion = row["Code Version"];
 
   // Add the country name and code version value to the countryCodeVersions object
@@ -1712,7 +1722,7 @@ var countryCodeSpecifications = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code specification value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeSpecification = row["Code Specification"];
 
   // Add the country name and code specification value to the countryCodeSpecifications object
@@ -1849,7 +1859,8 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
   .then(response => response.json())
   .then(data => {
     const content = data.content;
-    const decodedContent = atob(content);
+    // Decode the base64-encoded content and convert it to a UTF-8 encoded string
+    const decodedContent = new TextDecoder('utf-8').decode(Uint8Array.from(atob(content), c => c.charCodeAt(0)));
 
 // Parse the CSV data
 const csvData = Papa.parse(decodedContent, { header: true }).data;
@@ -1867,14 +1878,14 @@ var countryStatuses = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and status value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var status = row["Status"];
   countryStatuses[countryName] = status;
 });
 
 // Extend the downloadLinks object with data from the CSV file
 csvData.forEach(row => {
-  const countryName = row['ï»¿Country/Region'];
+  const countryName = row['Country/Region'];
   const downloadLink = row['DOI-Link'];
   if (!downloadLinks.hasOwnProperty(countryName) && (countryStatuses[countryName] === "Publiziert" || countryStatuses[countryName] === "Produziert")) {
     downloadLinks[countryName] = downloadLink;
@@ -1893,7 +1904,7 @@ var countryStatuses = {};
 csvData.forEach(function(row) {
 
 // Get the country name and status value from the current row
-var countryName = row["ï»¿Country/Region"];
+var countryName = row["Country/Region"];
 var status = row["Status"];
 
 // Add the country name and status value to the countryStatuses object
@@ -1981,7 +1992,7 @@ var countryYears = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and years value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var years = row["Years"];
 
   // Add the country name and years value to the countryYears object
@@ -1996,7 +2007,7 @@ var countryCodeVersions = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code version value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeVersion = row["Code Version"];
 
   // Add the country name and code version value to the countryCodeVersions object
@@ -2011,7 +2022,7 @@ var countryCodeSpecifications = {};
 // Loop through the csvData array
 csvData.forEach(function(row) {
   // Get the country name and code specification value from the current row
-  var countryName = row["ï»¿Country/Region"];
+  var countryName = row["Country/Region"];
   var codeSpecification = row["Code Specification"];
 
   // Add the country name and code specification value to the countryCodeSpecifications object
