@@ -153,6 +153,11 @@ svg.hover g[name="Europe"] path {
 	height: 1220px;
   }
 
+.argentina-map {
+	width: 1000px;
+	height: 1220px;
+  }
+
 .europe-map {
 	width: 1300px;
 	height: 670px; /*750*/
