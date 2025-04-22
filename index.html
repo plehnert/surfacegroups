@@ -976,7 +976,7 @@ var downloadLinks = {
   "Europe": "https://www.google.ch/",
   "United States": "https://www.google.ch/",
   "Brazil": "https://www.google.ch/",
-  "Argentina": "https://www.google.ch/", <!-- added PL -->
+  "Argentina": "https://www.google.ch/", 
       };
 
 const username = 'plehnert';
@@ -1041,7 +1041,7 @@ countries.forEach(function(country) {
   var countryName = country.getAttribute("name");
   var downloadLink = downloadLinks[countryName];
   var status = countryStatuses[countryName];
-  if (countryName === "United States" || countryName === "Europe" || countryName === "Brazil" || countryName === "Argentina" || <!-- added PL --> status === "Publiziert") {
+  if (countryName === "United States" || countryName === "Europe" || countryName === "Brazil" || countryName === "Argentina" ||status === "Publiziert") {
     country.classList.add("available");
   }
   if (status === "Produziert") {
@@ -1154,7 +1154,7 @@ if (countryYears.hasOwnProperty(countryName)) {
 countries.forEach(function(country) {
   country.addEventListener("click", function() {
     var countryName = country.getAttribute("name");
-    if (countryName !== "Europe" && countryName !== "United States" && countryName !== "Brazil" && countryName !== "Argentina" <!-- added PL -->) {
+    if (countryName !== "Europe" && countryName !== "United States" && countryName !== "Brazil" && countryName !== "Argentina") {
       var downloadLink = downloadLinks[countryName];
       if (downloadLink) {
         window.location.href = downloadLink;
