@@ -1839,7 +1839,7 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
     // Log the csvData variable to the console
     console.log(csvData);
 
-    // Select all the path elements within the Brazil SVG element
+    // Select all the path elements within the Argentina SVG element
     var countries = argentinaSvg.querySelectorAll('path');
 
     // Status
@@ -2389,18 +2389,18 @@ document.addEventListener('mousemove', function(event) {
   // Get the position of the cursor
   var x = event.clientX;
   var y = event.clientY;
-  // Check if the cursor is over any of the Brazil elements
+  // Check if the cursor is over any of the Argentina elements
   var isCursorOverArgentina= false;
-  brazilElements.forEach(function(argentina) {
-    var rect =  brazil.getBoundingClientRect();
+  argentinaElements.forEach(function(argentina) {
+    var rect =  argentina.getBoundingClientRect();
     if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
       isCursorOverArgentina = true;
     }
   });
-  // If the cursor is not over any of the Brazil elements, remove the highlight class
+  // If the cursor is not over any of the Argentina elements, remove the highlight class
   if (!isCursorOverArgentina) {
-    brazilElements.forEach(function(argentina) {
-      brazil.classList.remove('highlight');
+    argentinaElements.forEach(function(argentina) {
+      argentina.classList.remove('highlight');
     });
   }
  });
